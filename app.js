@@ -28,6 +28,7 @@
   let state = { notes: loadNotes(), activeId: null, filter: 'all', query: '', sort: 'desc' };
   let saveTimer = null;
   let toastTimer = null;
+  const themeOptions = document.querySelectorAll('.theme-option');
   state.activeId = state.notes[0]?.id || null;
 
   function loadNotes() {
@@ -161,6 +162,18 @@
     toastTimer = setTimeout(() => els.toast.classList.remove('show'), 1800);
   }
 
+  function applyTheme(theme, notify = false) {
+    const next = theme === 'dark' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem(THEME_KEY, next);
+    themeOptions.forEach(option => {
+      const active = option.dataset.themeOption === next;
+      option.classList.toggle('active', active);
+      option.setAttribute('aria-pressed', String(active));
+    });
+    if (notify) showToast(next === 'dark' ? '已切换至深色模式' : '已切换至浅色模式');
+  }
+
   els.notesList.addEventListener('click', event => {
     const card = event.target.closest('.note-card');
     if (!card) return;
@@ -193,12 +206,7 @@
     els.sortButton.setAttribute('aria-label', `当前按${state.sort === 'desc' ? '最新' : '最早'}修改排序`);
     renderList();
   });
-  els.themeButton.addEventListener('click', () => {
-    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem(THEME_KEY, next);
-    showToast(next === 'dark' ? '已切换至深色模式' : '已切换至浅色模式');
-  });
+  themeOptions.forEach(option => option.addEventListener('click', () => applyTheme(option.dataset.themeOption, true)));
   els.openSidebar.addEventListener('click', () => document.body.classList.add('sidebar-open'));
   els.closeSidebar.addEventListener('click', () => document.body.classList.remove('sidebar-open'));
   document.addEventListener('keydown', event => {
@@ -208,8 +216,8 @@
     if (event.key === 'Escape') { els.deleteModal.hidden = true; document.body.classList.remove('sidebar-open'); }
   });
 
-  const savedTheme = localStorage.getItem(THEME_KEY) ?? localStorage.getItem(LEGACY_THEME_KEY);
-  if (savedTheme) document.documentElement.dataset.theme = savedTheme;
+  const savedTheme = localStorage.getItem(THEME_KEY) ?? localStorage.getItem(LEGACY_THEME_KEY) ?? 'light';
+  applyTheme(savedTheme);
   render();
 })();
 

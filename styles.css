@@ -80,6 +80,11 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .sidebar-footer { display: flex; align-items: center; justify-content: space-between; min-height: 55px; padding: 8px 17px 8px 23px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; }
 .sidebar-footer > span { display: flex; align-items: center; gap: 7px; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #43b581; box-shadow: 0 0 0 3px rgba(67,181,129,.12); }
+.theme-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.theme-option { display: flex; align-items: center; justify-content: center; gap: 5px; min-width: 60px; height: 30px; padding: 0 8px; border: 0; border-radius: 7px; background: transparent; color: var(--muted); font-size: 11px; cursor: pointer; transition: .18s ease; }
+.theme-option:hover { color: var(--text); background: var(--bg); }
+.theme-option.active { color: var(--accent); background: var(--accent-soft); font-weight: 650; }
+.theme-option svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 
 .editor { position: relative; min-width: 0; background: var(--surface); }
 .mobile-bar { display: none; }

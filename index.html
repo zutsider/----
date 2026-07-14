@@ -50,9 +50,16 @@
 
       <footer class="sidebar-footer">
         <span><i class="status-dot"></i><span id="storageStatus">已保存到本地</span></span>
-        <button class="icon-button" id="themeButton" type="button" aria-label="切换深色模式" title="切换主题">
-          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.64 5.64l1.42 1.42M16.94 16.94l1.42 1.42M18.36 5.64l-1.42 1.42M7.06 16.94l-1.42 1.42"/><circle cx="12" cy="12" r="4"/></svg>
-        </button>
+        <div class="theme-switch" role="group" aria-label="主题切换">
+          <button class="theme-option" data-theme-option="light" type="button" aria-pressed="true" title="浅色模式">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.64 5.64l1.42 1.42M16.94 16.94l1.42 1.42M18.36 5.64l-1.42 1.42M7.06 16.94l-1.42 1.42"/><circle cx="12" cy="12" r="4"/></svg>
+            <span>浅色</span>
+          </button>
+          <button class="theme-option" data-theme-option="dark" type="button" aria-pressed="false" title="深色模式">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 0 0 9.8 9.8Z"/></svg>
+            <span>深色</span>
+          </button>
+        </div>
       </footer>
     </aside>
 
