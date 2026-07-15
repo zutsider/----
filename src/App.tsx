@@ -1,6 +1,9 @@
-﻿import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import markNotesLogo from './assets/mark-notes-logo.svg';
+import { highlightMarkdown } from './markdown/highlightMarkdown';
 import {
   countChars,
   createNote,
@@ -17,6 +20,7 @@ import {
 
 type Theme = 'light' | 'dark';
 type SaveState = 'saved' | 'saving' | 'error';
+type EditorMode = 'edit' | 'preview';
 
 const THEME_KEY = '292-notes-theme';
 const LEGACY_THEME_KEY = 'mark-notes-theme';
@@ -66,6 +70,7 @@ export default function App() {
   const [sort, setSort] = useState<SortDirection>('desc');
   const [theme, setTheme] = useState<Theme>(initialTheme);
   const [saveState, setSaveState] = useState<SaveState>('saved');
+  const [editorMode, setEditorMode] = useState<EditorMode>('edit');
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState('');
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -74,6 +79,7 @@ export default function App() {
 
   const searchRef = useRef<HTMLInputElement | null>(null);
   const titleRef = useRef<HTMLInputElement | null>(null);
+  const highlightRef = useRef<HTMLPreElement | null>(null);
   const loadedRef = useRef(false);
   const savedSnapshotRef = useRef('');
   const toastTimerRef = useRef<number | undefined>(undefined);
@@ -180,6 +186,7 @@ export default function App() {
     setActiveId(note.id);
     setFilter('all');
     setQuery('');
+    setEditorMode('edit');
     setSidebarOpen(false);
     window.setTimeout(() => titleRef.current?.focus(), 0);
     showToast('已创建新笔记');
@@ -358,6 +365,24 @@ export default function App() {
               <header className="editor-toolbar">
                 <div className="breadcrumb"><span>我的笔记</span><b>/</b><span>{noteTitle(activeNote)}</span></div>
                 <div className="toolbar-actions">
+                  <div className="mode-toggle" role="group" aria-label="Markdown模式切换">
+                    <button
+                      type="button"
+                      aria-pressed={editorMode === 'edit'}
+                      className={editorMode === 'edit' ? 'active' : ''}
+                      onClick={() => setEditorMode('edit')}
+                    >
+                      编辑
+                    </button>
+                    <button
+                      type="button"
+                      aria-pressed={editorMode === 'preview'}
+                      className={editorMode === 'preview' ? 'active' : ''}
+                      onClick={() => setEditorMode('preview')}
+                    >
+                      预览
+                    </button>
+                  </div>
                   <span className={`save-state ${saveState === 'saving' ? 'saving' : ''}`}><i></i>{saveState === 'saving' ? '保存中...' : saveState === 'error' ? '保存失败' : '已保存'}</span>
                   <button
                     className={`icon-button ${activeNote.pinned ? 'active' : ''}`}
@@ -386,19 +411,40 @@ export default function App() {
                   onChange={event => updateActive('title', event.target.value)}
                 />
                 <div className="note-meta"><span>更新于 {fullDate(activeNote.updatedAt)}</span><i></i><span>{chars} 字</span></div>
-                <textarea
-                  id="contentInput"
-                  value={activeNote.content}
-                  placeholder="从这里开始写下你的想法..."
-                  aria-label="笔记内容"
-                  spellCheck
-                  onChange={event => updateActive('content', event.target.value)}
-                />
+                {editorMode === 'edit' ? (
+                  <div className="markdown-editor-stack">
+                    <pre ref={highlightRef} className="markdown-highlight" aria-hidden="true">
+                      {highlightMarkdown(activeNote.content || ' ')}
+                    </pre>
+                    <textarea
+                      id="contentInput"
+                      className="markdown-textarea"
+                      value={activeNote.content}
+                      placeholder="从这里开始写下你的想法..."
+                      aria-label="笔记内容"
+                      spellCheck
+                      onScroll={event => {
+                        if (!highlightRef.current) return;
+                        highlightRef.current.scrollTop = event.currentTarget.scrollTop;
+                        highlightRef.current.scrollLeft = event.currentTarget.scrollLeft;
+                      }}
+                      onChange={event => updateActive('content', event.target.value)}
+                    />
+                  </div>
+                ) : (
+                  <div className="markdown-preview" aria-label="Markdown预览">
+                    {activeNote.content.trim() ? (
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{activeNote.content}</ReactMarkdown>
+                    ) : (
+                      <p className="markdown-preview-empty">暂无内容</p>
+                    )}
+                  </div>
+                )}
               </article>
 
               <footer className="editor-footer">
                 <span>{chars} 字 · 预计阅读 {readingMinutes(activeNote.content)} 分钟</span>
-                <span>自动保存已开启</span>
+                <span>{editorMode === 'preview' ? 'Markdown 预览' : '自动保存已开启'}</span>
               </footer>
             </section>
           )}

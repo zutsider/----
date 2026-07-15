@@ -107,4 +107,29 @@ describe('App', () => {
     expect(document.documentElement.dataset.theme).toBe('dark');
     expect(localStorage.getItem('292-notes-theme')).toBe('dark');
   });
+
+  it('highlights markdown syntax in edit mode and renders markdown preview', async () => {
+    const user = userEvent.setup();
+    await renderLoadedApp([
+      createNote({
+        id: 'markdown',
+        title: 'Markdown 笔记',
+        content: '# 标题\n\n**重点**\n\n- [x] 完成预览',
+        updatedAt: '2026-07-03T08:00:00.000Z'
+      })
+    ]);
+
+    expect(document.querySelector('.markdown-highlight .md-heading')).toBeTruthy();
+    expect(screen.getByLabelText('笔记内容')).toBeTruthy();
+
+    await user.click(screen.getByRole('button', { name: '预览' }));
+
+    expect(screen.getByRole('heading', { level: 1, name: '标题' })).toBeTruthy();
+    expect(screen.getByText('重点')).toBeTruthy();
+    expect(screen.getByRole('checkbox')).toBeTruthy();
+    expect(screen.queryByLabelText('笔记内容')).toBeNull();
+
+    await user.click(screen.getByRole('button', { name: '编辑' }));
+    expect(screen.getByLabelText('笔记内容')).toBeTruthy();
+  });
 });
