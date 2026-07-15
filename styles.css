@@ -43,7 +43,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 .sidebar { display: flex; flex-direction: column; min-width: 0; background: var(--sidebar); border-right: 1px solid var(--line); }
 .brand-row { height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
 .brand { display: flex; align-items: center; gap: 11px; color: var(--text); font-size: 18px; font-weight: 750; text-decoration: none; letter-spacing: -.3px; }
-.brand-mark { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px 10px 10px 3px; background: var(--accent); color: #fff; font-family: Georgia, serif; font-size: 11px; font-style: normal; letter-spacing: 0; box-shadow: 0 5px 12px rgba(117,87,199,.25); }
+.brand-logo { width: 36px; height: 36px; flex: 0 0 auto; border-radius: 9px; filter: drop-shadow(0 5px 10px rgba(117,87,199,.22)); }
+.brand-logo.small { width: 27px; height: 27px; border-radius: 7px; }
 .icon-button { display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 9px; background: transparent; cursor: pointer; transition: .18s ease; }
 .icon-button:hover { background: var(--line); }
 .icon-button svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }

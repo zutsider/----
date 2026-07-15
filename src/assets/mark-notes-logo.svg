@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">292 Notes Logo</title>
+  <desc id="desc">A folded note page with 292 and a pencil stroke.</desc>
+  <defs>
+    <linearGradient id="page" x1="42" x2="214" y1="30" y2="226" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8468df"/>
+      <stop offset="1" stop-color="#4f9f95"/>
+    </linearGradient>
+    <linearGradient id="corner" x1="174" x2="229" y1="28" y2="89" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d8cffd"/>
+      <stop offset="1" stop-color="#79c4bb"/>
+    </linearGradient>
+    <filter id="shadow" x="20" y="22" width="216" height="222" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="12" flood-color="#252230" flood-opacity=".18" stdDeviation="12"/>
+    </filter>
+  </defs>
+  <rect width="256" height="256" fill="none"/>
+  <g filter="url(#shadow)">
+    <path fill="url(#page)" d="M53 30h118l42 42v134c0 12.2-9.8 22-22 22H65c-12.2 0-22-9.8-22-22V40c0-5.5 4.5-10 10-10Z"/>
+    <path fill="url(#corner)" d="M171 30v42h42L171 30Z"/>
+    <path fill="#fff" fill-opacity=".22" d="M58 48c0-3.3 2.7-6 6-6h86c3.3 0 6 2.7 6 6s-2.7 6-6 6H64c-3.3 0-6-2.7-6-6Z"/>
+  </g>
+  <g fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke-width="10" d="M76 95h72M76 126h104M76 157h70"/>
+    <path stroke-width="12" d="m145 181 38-38 16 16-38 38-24 8 8-24Z"/>
+    <path stroke-width="8" d="m177 149 16 16"/>
+  </g>
+  <text x="77" y="79" fill="#fff" font-family="Georgia, 'Times New Roman', serif" font-size="31" font-weight="700" letter-spacing="1">292</text>
+</svg>

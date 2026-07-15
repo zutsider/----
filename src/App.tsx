@@ -1,5 +1,6 @@
 ﻿import { useEffect, useMemo, useRef, useState } from 'react';
 
+import markNotesLogo from './assets/mark-notes-logo.svg';
 import {
   countChars,
   createNote,
@@ -227,7 +228,7 @@ export default function App() {
         <aside className="sidebar" aria-label="笔记列表">
           <header className="brand-row">
             <a className="brand" href="#" aria-label="292笔记首页" onClick={event => event.preventDefault()}>
-              <span className="brand-mark" aria-hidden="true">292</span>
+              <img className="brand-logo" src={markNotesLogo} alt="" aria-hidden="true" />
               <span>292笔记</span>
             </a>
             <button className="icon-button mobile-close" type="button" aria-label="关闭笔记列表" onClick={() => setSidebarOpen(false)}>×</button>
@@ -341,6 +342,7 @@ export default function App() {
         <main className="editor">
           <div className="mobile-bar">
             <button className="icon-button" type="button" aria-label="打开笔记列表" onClick={() => setSidebarOpen(true)}>☰</button>
+            <img className="brand-logo small" src={markNotesLogo} alt="" aria-hidden="true" />
             <span>292笔记</span>
           </div>
 
