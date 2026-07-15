@@ -144,3 +144,5 @@ button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
   .editor-footer span:last-child { display: none; }
 }
 
+.loading-screen { min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--muted); font-size: 14px; }
+.error-banner { position: fixed; z-index: 40; right: 18px; bottom: 18px; max-width: min(420px, calc(100vw - 36px)); padding: 10px 14px; border: 1px solid rgba(217,75,75,.28); border-radius: 9px; background: var(--surface); color: #d94b4b; box-shadow: var(--shadow); font-size: 12px; }
